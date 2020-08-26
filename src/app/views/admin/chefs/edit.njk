@@ -1,0 +1,31 @@
+{% extends "admin/layout.njk" %}
+
+{% block head %}
+
+    <title>Admin - Editar Receita</title>
+    <link rel="stylesheet" href="/admin/chefs/edit.css">
+    <link rel="stylesheet" href="/admin/chefs/fields.css">
+
+{% endblock %} 
+
+{% block content %}
+
+    <form class="delBtn-box" action="/admin/chefs?_method=DELETE" method="post">
+        <input type="hidden" name="id" value={{chef.id}}>
+        <div><button class="adminBtn delBtn" type="submit">Deletar</button></div>
+    </form>
+
+    <form class="create-content" action="/admin/chefs?_method=PUT" method="post">
+        <section class="header-box">
+            <h3>Editando Chef</h3>
+            <div>
+                <input type="hidden" name="id" value={{chef.id}}>
+                <button class="adminBtn" type="submit">Salvar Chef</button>
+            </div>
+        </section>
+
+        <section class="form-box">
+            {% include 'admin/chefs/fields.njk'%}
+        </section>
+    </form>
+{% endblock %} 
