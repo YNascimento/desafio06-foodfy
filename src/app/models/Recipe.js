@@ -4,17 +4,12 @@ const {date} = require('../../lib/util')
 const { off } = require('../../config/db')
 
 module.exports = {
-    all(callback){
-        db.query(`SELECT recipes.*, chefs.name as chef_names FROM recipes 
+    all(){
+        return db.query(`SELECT recipes.*, chefs.name as chef_names FROM recipes 
         LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
-        order by chef_names LIMIT 6`,
-        function(err, results){
-
-            if(err) throw `all function error ${err}`
-            callback(results.rows)
-        })
+        order by chef_names LIMIT 6`)
     },
-    create(data, callback){
+    create(data){
         const query = `
             INSERT INTO recipes (
                 image,
@@ -36,24 +31,17 @@ module.exports = {
             date(Date.now()).iso
         ]
 
-        db.query(query,values,function(err,results){
-            if(err) throw `create function error ${err}`
-
-            callback(results.rows[0])
-        })
+        return db.query(query,values)
     },
-    find(id,callback){
-        db.query(`SELECT * FROM recipes WHERE id = $1`,[id],
-        function(err,results){
-            if(err)throw `find function error ${err}`
-
-            callback(results.rows[0])
-        })
+    find(id){
+        return db.query(` SELECT recipes.*, chefs.name as chef_name FROM recipes 
+            LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
+            WHERE recipes.id = $1`,[id])
     },
-    findBy(filter,callback){
+    findBy(filter){
 
     },
-    update(data,callback){
+    update(data){
         const query = `
             UPDATE recipes SET
                 image = ($1),
@@ -74,23 +62,13 @@ module.exports = {
             data.id
         ]
 
-        db.query(query,values,function(err,results){
-            if(err) throw `Update function error ${err}`
-
-            callback(results.rows[0])
-        })
+        return db.query(query,values)
     },
-    delete(id,callback){
-        db.query(`DELETE FROM recipes WHERE id = $1`, [id],function(err,results){
-            if(err) throw `delete function error ${err}`
-            callback()
-        })
+    delete(id){
+        return db.query(`DELETE FROM recipes WHERE id = $1`, [id])
     },
-    chefOptions(callback){
-        db.query(`SELECT name, id FROM chefs ORDER BY name ASC`, function(err,results){
-            if(err) throw `cheOptions error ${err}`
-            callback(results.rows)
-        })
+    chefOptions(){
+        return db.query(`SELECT name, id FROM chefs ORDER BY name ASC`)
     },
     paginate(params){
         const {filter, offset, limit, callback} = params
@@ -109,11 +87,6 @@ module.exports = {
             ${filterQuery}
             LIMIT $1 OFFSET $2`
 
-            db.query(query,[limit,offset],function(err,results){
-                if(err) throw `paginate error ${err}`
-                callback(results.rows)
-            })
-
-
+        return db.query(query,[limit,offset])
     },
 }

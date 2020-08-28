@@ -10,12 +10,12 @@
 
 {% block content %}
 
-    <form class="delBtn-box" action="/admin/recipes?_method=DELETE" method="post" enctype="multipart/form-data">
+    <form class="delBtn-box" action="/admin/recipes?_method=DELETE" method="post">
         <input type="hidden" name="id" value={{recipe.id}}>
         <div><button class="adminBtn delBtn" type="submit">Deletar</button></div>
     </form>
 
-    <form class="create-content" action="/admin/recipes?_method=PUT" method="post">
+    <form class="create-content" action="/admin/recipes?_method=PUT" method="post" enctype="multipart/form-data">
         <section class="header-box">
             <h3>Editando receita</h3>
             <div>

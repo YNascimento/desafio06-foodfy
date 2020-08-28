@@ -2,17 +2,12 @@ const db = require('../../config/db')
 const {date} = require('../../lib/util')
 
 module.exports = {
-    all(callback){
-        db.query(`SELECT chefs.*,count(recipes) AS total_recipes 
+    all(){
+        return db.query(`SELECT chefs.*,count(recipes) AS total_recipes 
         FROM chefs LEFT JOIN recipes ON (chefs.id = recipes.chef_id)
-        GROUP BY chefs.id`,
-        function(err, results){
-
-            if(err) throw `all function error ${err}`
-            callback(results.rows)
-        })
+        GROUP BY chefs.id`)
     },
-    create(data, callback){
+    create(data){
         const query = `
             INSERT INTO chefs (
                 name,
@@ -26,24 +21,12 @@ module.exports = {
             date(Date.now()).iso
         ]
 
-        db.query(query,values,function(err,results){
-            if(err) throw `create function error ${err}`
-
-            callback(results.rows[0])
-        })
+        return db.query(query,values)
     },
-    find(id,callback){
-        db.query(`SELECT * FROM chefs WHERE id = $1`,[id],
-        function(err,results){
-            if(err)throw `find function error ${err}`
-
-            callback(results.rows[0])
-        })
+    find(id){
+        return db.query(`SELECT * FROM chefs WHERE id = $1`,[id])  
     },
-    findBy(filter,callback){
-
-    },
-    update(data,callback){
+    update(data){
         const query = `
             UPDATE chefs SET
                 name = ($1),
@@ -56,29 +39,16 @@ module.exports = {
             data.id
         ]
 
-        db.query(query,values,function(err,results){
-            if(err) throw `Update function error ${err}`
-
-            callback(results.rows[0])
-        })
+        return db.query(query,values)
     },
-    delete(id,callback){
-        db.query(`DELETE FROM chefs WHERE id = $1`, [id],function(err,results){
-            if(err) throw `delete function error ${err}`
-            callback()
-        })
+    delete(id){
+        return db.query(`DELETE FROM chefs WHERE id = $1`, [id])
     },
-    recipesBy(id,callback){
-        db.query(`SELECT recipes.* FROM recipes WHERE chef_id = $1`,[id],function(err,results){
-            if(err) `recipesBy error ${err}`
-            callback(results.rows)
-        })
+    recipesBy(id){
+        return db.query(`SELECT recipes.* FROM recipes WHERE chef_id = $1`,[id])
     },
-    totalRecipesByChef(id,callback){
-        db.query('SELECT count(recipes) AS total FROM recipes WHERE chef_id = $1',[id],function(err,results){
-            if(err)throw `error totalRecipes ${err}`
-            callback(results.rows[0])
-        })
+    totalRecipesByChef(id){
+        return db.query('SELECT count(recipes) AS total FROM recipes WHERE chef_id = $1',[id])
     },
     paginate(params){},
 }
