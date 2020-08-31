@@ -20,6 +20,11 @@
             <img class="presentation-img" src="{{recipe.image}}" alt="{{recipe.title}}">
             <h1 class="details-h1">{{recipe.title}}</h1>
             <small class="presentation-author">por {{recipe.chef_name}}</small>
+            <small class="presentation-author">por {{files[0].src}}</small>
+
+            {%for file in files %}
+                <img src="{{file.src}}" alt="">
+            {% endfor %}
         </div>
         
         <div class="details-box">

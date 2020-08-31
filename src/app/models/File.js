@@ -2,7 +2,8 @@ const db = require('../../config/db')
 const fs = require('fs')
 
 module.exports = {
-    create({filename, path}){
+    async create({filename, path}, recipeId){
+        // console.log('dentro do File.create ',filename, path, recipeId)
         const query = `
         INSERT INTO files (
             name,
@@ -15,7 +16,7 @@ module.exports = {
             path,
         ]
 
-        return db.query(query,values)
+        return await db.query(query,values)
     },
     async delete(id){
         try {
@@ -31,4 +32,19 @@ module.exports = {
             console.error(err)
         }        
     },
+    async indentifyFile(id,recipeId){
+        const query = `
+        INSERT INTO recipe_files (
+            file_id,
+            recipe_id
+        ) VALUES ($1, $2)
+        RETURNING id`
+
+        const values = [
+            id,
+            recipeId,
+        ]
+
+        return await db.query(query,values)
+    }
 }
