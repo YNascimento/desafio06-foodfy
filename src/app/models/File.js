@@ -7,13 +7,15 @@ module.exports = {
         const query = `
         INSERT INTO files (
             name,
-            path
-        ) VALUES ($1, $2)
+            path,
+            recipe_id
+        ) VALUES ($1, $2, $3)
         RETURNING id`
 
         const values = [
             filename,
             path,
+            recipeId
         ]
 
         return await db.query(query,values)

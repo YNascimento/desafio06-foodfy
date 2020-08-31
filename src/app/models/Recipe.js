@@ -64,8 +64,13 @@ module.exports = {
 
         return db.query(query,values)
     },
-    delete(id){
-        return db.query(`DELETE FROM recipes WHERE id = $1`, [id])
+    async delete(id){
+        let results = await db.query(`DELETE FROM recipes USING recipe_files WHERE recipes.id = $1 AND recipes.id = recipe_files.recipe_id RETURNING recipes.id`,[id])
+        
+        const fileId = results.rows[0].id
+        results = await db.query(`DELETE FROM files WHERE recipe_id = $1`,[fileId])
+
+        return
     },
     chefOptions(){
         return db.query(`SELECT name, id FROM chefs ORDER BY name ASC`)

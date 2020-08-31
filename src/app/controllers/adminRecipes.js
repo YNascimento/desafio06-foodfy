@@ -32,16 +32,12 @@ module.exports = {
         // console.log('teste1 ', results.rows)
 
         const filesPromises = fileIds.map(id => Recipe.getFiles(id.file_id))
-        console.log('file Promises ',filesPromises)
         await Promise.all(filesPromises).then((results) => {
-            console.log('dentro do then', results)
 
             const files = results.map(file => ({
                 ...file,
                 src: `${req.protocol}://${req.headers.host}${file.path.replace('public','')}`
             }))
-            console.log('dentro do then2', files)
-
             return res.render('admin/recipes/show',{recipe, files})
         })
         // console.log('file ',file)
