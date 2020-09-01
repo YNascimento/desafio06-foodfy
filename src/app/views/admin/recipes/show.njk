@@ -27,7 +27,9 @@
             <div class="gallery-preview">
                 {%for image in files %}
                     {# loop.index começa do 1, loop.index0 começa do 0, checa se é primeira img #}
-                    <img src="{{image.src}}" alt="{{image.name}}" {% if loop.first %} class="active" {% endif %}>
+                    <img src="{{image.src}}" alt="{{image.name}}" 
+                        {% if loop.first %} class="active" {% endif %}
+                        onclick="imageGallery.setImage(event)">
                 {%endfor%}
             </div>
             
@@ -61,4 +63,5 @@
         </div>
     </div>
 
+<script src="/admin/recipes/show.js"></script>
 {% endblock %} 

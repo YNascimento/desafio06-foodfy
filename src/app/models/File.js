@@ -1,5 +1,6 @@
 const db = require('../../config/db')
 const fs = require('fs')
+const { getFiles } = require('./Recipe')
 
 module.exports = {
     async create({filename, path}, recipeId){
@@ -48,5 +49,9 @@ module.exports = {
         ]
 
         return await db.query(query,values)
+    },
+    async getFiles(recipeId){
+        let results = await db.query(`SELECT * FROM files WHERE recipe_id = $1`,[recipeId])
+        return results.rows
     }
 }

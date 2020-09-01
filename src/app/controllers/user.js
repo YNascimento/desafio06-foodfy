@@ -1,5 +1,17 @@
 const Recipe = require('../models/Recipe')
 const Chef = require('../models/Chef')
+/*
+module.exports = {
+    async index(req,res){
+        let results = await Recipe.all()
+        const recipes = results.rows
+
+        // if(!recipes) return res.send("recipes not found")
+        return res.render('user/index', {recipes})
+    },
+    
+}
+*/
 
 exports.index = function(req,res){ //index
     Recipe.all(function(recipes){
