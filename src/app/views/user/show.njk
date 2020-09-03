@@ -10,9 +10,13 @@
 {% block content %}
     <div class="details-container">
         <div class="presentation-box">
-            <img class="presentation-img" src="{{recipe.image}}" alt="{{recipe.title}}">
+            {% if not files[0] %}
+                <img class="presentation-img" src="http://placehold.it/600x300?text=SEM FOTO">
+            {%else%}
+                <img class="presentation-img" src="{{files[0].src}}" alt="{{recipe.title}}">
+            {%endif%}
             <h1 class="details-h1">{{recipe.title}}</h1>
-            <small class="presentation-author">por {{recipe.author}}</small>
+            <small class="presentation-author">por {{recipe.chef_name}}</small>
         </div>
         
         <div class="details-box">

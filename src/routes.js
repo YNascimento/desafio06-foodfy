@@ -21,7 +21,7 @@ routes.get("/admin/recipes/create", adminRecipes.create); // CREATE
 routes.get("/admin/recipes/:id", adminRecipes.show); // SHOW
 routes.get("/admin/recipes/:id/edit", adminRecipes.edit); // EDIT
 routes.post("/admin/recipes", multer.array('photos',5) ,adminRecipes.post); // POST
-routes.put("/admin/recipes", multer.array('photos',5), adminRecipes.put); // PUT/ATT
+routes.put("/admin/recipes/:id", multer.array('photos',5), adminRecipes.put); // PUT/ATT
 routes.delete("/admin/recipes", adminRecipes.delete); // DELETE
 
 //ADMIN - CHEFS
@@ -30,7 +30,7 @@ routes.get("/admin/chefs/create", adminChefs.create); // CREATE
 routes.get("/admin/chefs/:id", adminChefs.show); // SHOW
 routes.get("/admin/chefs/:id/edit", adminChefs.edit); // EDIT
 routes.post("/admin/chefs", multer.array('photos',1) , adminChefs.post); // POST
-routes.put("/admin/chefs", multer.array('photos',1) , adminChefs.put); // PUT/ATT
+routes.put("/admin/chefs/:id", multer.array('photos',1) , adminChefs.put); // PUT/ATT
 routes.delete("/admin/chefs", adminChefs.delete); // DELETE
 
 

@@ -17,20 +17,24 @@
         </div>
 
         <div class="presentation-box">
-            <img class="presentation-img" src="{{chef.avatar_url}}" alt="{{chef.name}}">
+            <img class="presentation-img" src="{{chefFile.src}}" alt="{{chefFile.name}}">
             <h1 class="details-h1">{{chef.name}}</h1>
             <small class="presentation-author">
                 {{total_recipes.total}}
-                {% if total_recipes.total > 1  %} receitas {%endif%}
+                {% if total_recipes.total != 1  %} receitas {%endif%}
                 {% if total_recipes.total == 1  %} receita {%endif%}
             </small>
         </div>
 
-        <h2 class="details-h2">Receitas</h2>
+        <h2 class="details-h2">
+            {% if total_recipes.total > 0  %} Receitas 
+            {% else %} Chef não possui nenhum receita cadastrada
+            {%endif%}
+        </h2>
         <div class="cards">
             {% for recipe in recipes %}
             <div class="card">
-                <img src="{{recipe.image}}" alt="">
+                <img src="{{recipeFiles[loop.index0].src}}" alt="">
                 <div>
                     <h4>{{recipe.title}}</h4>
                     <small>Por {{chef.name}}</small>

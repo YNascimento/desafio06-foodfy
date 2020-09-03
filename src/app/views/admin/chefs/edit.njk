@@ -15,7 +15,7 @@
         <div><button class="adminBtn delBtn" type="submit">Deletar</button></div>
     </form>
 
-    <form class="create-content" action="/admin/chefs?_method=PUT" method="post">
+    <form class="create-content" action="/admin/chefs/{{chef.id}}?_method=PUT" method="post" enctype="multipart/form-data">
         <section class="header-box">
             <h3>Editando Chef</h3>
             <div>
@@ -28,4 +28,5 @@
             {% include 'admin/chefs/fields.njk'%}
         </section>
     </form>
+<script src="/admin/chefs/fields.js"></script>
 {% endblock %} 

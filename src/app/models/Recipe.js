@@ -4,25 +4,26 @@ const {date} = require('../../lib/util')
 const { off } = require('../../config/db')
 
 module.exports = {
-    all(){
-        return db.query(`SELECT recipes.*, chefs.name as chef_names FROM recipes 
-        LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
-        order by chef_names LIMIT 6`)
+    async all(){
+        try {
+            return await db.query(`SELECT recipes.*, chefs.name as chef_names FROM recipes 
+            LEFT JOIN chefs ON (recipes.chef_id = chefs.id) order by chef_names LIMIT 6`)
+        } catch (err) {
+            console.error(err)
+        }
     },
-    create(data){
+    async create(data){
         const query = `
             INSERT INTO recipes (
-                image,
                 chef_id,
                 title,
                 ingredients,
                 preparation,
                 information,
                 created_at
-            ) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id`
+            ) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`
 
         const values = [
-            data.image,
             data.chef,
             data.title,
             data.ingredients,
@@ -31,29 +32,31 @@ module.exports = {
             date(Date.now()).iso
         ]
 
-        return db.query(query,values)
-    },
-    find(id){
-        return db.query(` SELECT recipes.*, chefs.name as chef_name FROM recipes 
-            LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
-            WHERE recipes.id = $1`,[id])
-    },
-    findBy(filter){
+        try {
+            return await db.query(query,values)            
+        } catch (err) {
+            console.error(err)
+        }
 
     },
-    update(data){
-        const query = `
-            UPDATE recipes SET
-                image = ($1),
-                chef_id = ($2),
-                title = ($3),
-                ingredients = ($4),
-                preparation = ($5),
-                information = ($6)
-                WHERE id = ($7)`
+    async find(id){
+        try {
+            return await db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
+                LEFT JOIN chefs ON (recipes.chef_id = chefs.id) WHERE recipes.id = $1`,[id])
+        } catch (err) {
+            console.error(err)
+        }
+    },
+    async update(data){
+        const query = `UPDATE recipes SET
+            chef_id = ($1),
+            title = ($2),
+            ingredients = ($3),
+            preparation = ($4),
+            information = ($5)
+            WHERE id = ($6)`
 
         const values = [
-            data.image,
             data.chef,
             data.title,
             data.ingredients,
@@ -62,20 +65,34 @@ module.exports = {
             data.id
         ]
 
-        return db.query(query,values)
+        try {
+            return await db.query(query,values)
+        } catch (err) {
+            console.error(err)
+        }
+
     },
     async delete(id){
-        let results = await db.query(`DELETE FROM recipes USING recipe_files WHERE recipes.id = $1 AND recipes.id = recipe_files.recipe_id RETURNING recipes.id`,[id])
-        
-        const fileId = results.rows[0].id
-        results = await db.query(`DELETE FROM files WHERE recipe_id = $1`,[fileId])
+        try {
+            let results = await db.query(`DELETE FROM recipes USING recipe_files WHERE recipes.id = $1 AND recipes.id = recipe_files.recipe_id RETURNING recipes.id`,[id])
+            
+            const fileId = results.rows[0].id
+            results = await db.query(`DELETE FROM files WHERE recipe_id = $1`,[fileId])
+            
+            return results
+        } catch (err) {
+            console.error(err)
+        }
 
-        return
     },
-    chefOptions(){
-        return db.query(`SELECT name, id FROM chefs ORDER BY name ASC`)
+    async chefOptions(){
+        try {
+            return await db.query(`SELECT name, id FROM chefs ORDER BY name ASC`)
+        } catch (err) {
+            console.error(err)
+        }
     },
-    paginate(params){
+    async paginate(params){
         const {filter, offset, limit, callback} = params
 
         let query = ""
@@ -92,13 +109,10 @@ module.exports = {
             ${filterQuery}
             LIMIT $1 OFFSET $2`
 
-        return db.query(query,[limit,offset])
+        try {
+            return await db.query(query,[limit,offset])
+        } catch (err) {
+            console.error(err)
+        }
     },
-    getFileIds(recipeId){
-        return db.query(`SELECT file_id FROM recipe_files WHERE recipe_id = $1`,[recipeId])
-    },
-    async getFiles(id){
-        files = await db.query(`SELECT * FROM files WHERE id = $1`,[id])
-        return files.rows[0]
-    }
 }

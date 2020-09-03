@@ -8,6 +8,16 @@
         </div>
         
         <div id="photo-preview">
+            {% if files %}
+                {% for image in files %}
+                    <div class="photo" id="{{image.id}}">
+                        <img src="{{image.src}}" alt="{{image.name}}">
+                        <i class="material-icons" onclick="photosUpload.removeOldPhoto(event)">close</i>
+                    </div>
+                {% endfor %}
+                {# input hidden para salvar em value os ids de imgs excluidas no front e enviar para o backend #}
+                <input type="hidden" name="removed_files"> 
+            {% endif %}
         </div>
     </div>
 </div> 

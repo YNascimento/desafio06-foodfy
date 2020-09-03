@@ -15,7 +15,7 @@
         <div><button class="adminBtn delBtn" type="submit">Deletar</button></div>
     </form>
 
-    <form class="create-content" action="/admin/recipes?_method=PUT" method="post" enctype="multipart/form-data">
+    <form class="create-content" action="/admin/recipes/{{recipe.id}}?_method=PUT" method="post" enctype="multipart/form-data">
         <section class="header-box">
             <h3>Editando receita</h3>
             <div>

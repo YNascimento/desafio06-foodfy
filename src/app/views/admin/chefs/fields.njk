@@ -12,9 +12,9 @@
         </div>
         
         <div id="photo-preview">
-            {% if file %}
-                <div class="photo" id="{{file.id}}">
-                    <img src="{{file.src}}" alt="{{file.name}}">
+            {% if chefFile %}
+                <div class="photo" id="{{chefFile.id}}">
+                    <img src="{{chefFile.src}}" alt="{{chefFile.name}}">
                     <i class="material-icons" onclick="photosUpload.removeOldPhoto(event)">close</i>
                 </div>
                 <input type="hidden" name="removed_files">
@@ -22,8 +22,3 @@
         </div>
     </div>
 </div>
-
-{# <div class="input-box"> {# IMG
-    <div class="input-title">Avatar</div>
-    <input type="url" name="avatar_url" value="{{chef.avatar_url}}">
-</div> #}

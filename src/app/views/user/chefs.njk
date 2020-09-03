@@ -9,7 +9,7 @@
     <div class="cards">
         {% for chef in chefs %}
         <div class="card">
-            <img src="{{chef.avatar_url}}" alt="">
+            <img src="{{files[loop.index0].src}}" alt="{{chef.name}}">
             <div>
                 <h4>{{chef.name}}</h4>
                 <small class="presentation-author">

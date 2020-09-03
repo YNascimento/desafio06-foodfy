@@ -15,7 +15,7 @@
                 <p>Aprenda a construir os melhores pratos com receitas criadas por profissionais do mundo inteiro.</p>
             </div>
             <div class="banner-img">
-                <img src="img/chef.png" alt="">
+                <img src="std_imgs/chef.png" alt="">
             </div>                
         </div>
 
@@ -26,7 +26,7 @@
         <div class="cards">
             {%for recipe in recipes %}
             <div class="card" id="{{recipe.id}}">
-                <img class="card-img" src="{{recipe.image}}" alt="{{recipe.title}}">
+                <img class="card-img" src="{{files[loop.index0].src}}" alt="{{files[loop.index0].name}}">
                 <h4 class="card-titulo">{{recipe.title}}</h4>
                 <small class="card-autor">por {{recipe.author}}</small>
             </div>
